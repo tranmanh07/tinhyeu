@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vũ Trụ Của Chúng Mình</title>
+    <!-- Liên kết đến file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ĐĨA THAN & 4 FILE AUDIO -->
+    <div id="music-player" onclick="toggleMusic()"></div>
+    <audio id="bgMusic1" src="nhac1.mp3" loop></audio>
+    <audio id="bgMusic2" src="nhac2.mp3" loop></audio>
+    <audio id="bgMusic3" src="nhac3.mp3" loop></audio>
+    <audio id="voiceMsg" src="ghiam.mp3"></audio> <!-- FILE GHI ÂM -->
+
+    <div id="heart-container" class="particle-layer"></div>
+    <div id="flower-container" class="particle-layer"></div>
+
+    <!-- CẢNH 1: LOADING -->
+    <div id="loading-screen" class="screen active">
+        <button id="start-btn" onclick="startExperience()">Khởi Động Tàu Vũ Trụ</button>
+        <div id="loading-container">
+            <div id="loading-text">Đang dò tìm tọa độ của em... 0%</div>
+            <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
+        </div>
+    </div>
+
+    <!-- CẢNH 2: MỞ QUÀ -->
+    <div id="gift-screen" class="screen">
+        <div class="gift-wrapper" onclick="openGift(event)">
+            <div class="gift-box-css">
+                <div class="gift-bow"></div>
+                <div class="gift-lid"></div>
+                <div class="gift-body"></div>
+            </div>
+        </div>
+        <div class="instruction">Chạm vào hộp quà để mở nhé!</div>
+    </div>
+
+    <!-- CẢNH 2.5: MÀN HÌNH NGHE GHI ÂM -->
+    <div id="voice-screen" class="screen" onclick="goToUniverse()">
+        <div class="voice-waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        <div id="voice-text">Anh có vài lời muốn gửi đến em...</div>
+        <div id="voice-hint" class="hint-text" style="display: none; position: relative; margin-top: 40px; font-size: 1.2rem;">
+            ✨ Chạm vào màn hình để khám phá Vũ trụ của chúng mình ✨
+        </div>
+    </div>
+
+    <!-- CẢNH 3: VŨ TRỤ -->
+    <div id="universe-screen" class="screen" onclick="goToGallery()" title="Chạm để xem kỷ niệm">
+        <canvas id="canvas"></canvas>
+        
+        <!-- ẢNH TRUNG TÂM HÌNH TRÁI TIM -->
+        <div class="center-core">
+            <img src="ảnh/anh1.jpg.JPEG" alt="Ảnh lõi trái tim" onerror="this.src='https://via.placeholder.com/200x200/ff1493/ffffff?text=Loi+Anh';">
+        </div>
+
+        <div id="orbit-container"></div> 
+
+        <!-- 4 CÂU CHÚC & TIỂU HÀNH TINH TRÁI TIM Ở 4 GÓC -->
+        <div class="floating-texts" id="floatingTexts">
+            <div class="float-text" style="top: 15%; left: 10%; animation-delay: 0s;">
+                <span>CHÚC MỪNG SINH NHẬT</span>
+                <div class="asteroid-heart">
+                    <img src="ảnh/anh4.jpg.JPEG" onerror="this.src='https://via.placeholder.com/150/ffb3c6/ffffff?text=Anh';">
+                </div>
+            </div>
+            <div class="float-text" style="top: 10%; right: 15%; animation-delay: 1s;">
+                <span>ANH YÊU EM</span>
+                <div class="asteroid-heart">
+                    <img src="ảnh/anh5.jpg.JPEG" onerror="this.src='https://via.placeholder.com/150/ffb3c6/ffffff?text=Anh';">
+                </div>
+            </div>
+            <div class="float-text" style="bottom: 25%; left: 15%; animation-delay: 2s;">
+                <span>VŨ TRỤ CỦA ANH</span>
+                <div class="asteroid-heart">
+                    <img src="ảnh/anh6.jpg.JPEG" onerror="this.src='https://via.placeholder.com/150/ffb3c6/ffffff?text=Anh';">
+                </div>
+            </div>
+            <div class="float-text" style="bottom: 20%; right: 10%; animation-delay: 0.5s;">
+                <span>MÃI MÃI BÊN NHAU</span>
+                <div class="asteroid-heart">
+                    <img src="ảnh/anh7.jpg.JPEG" onerror="this.src='https://via.placeholder.com/150/ffb3c6/ffffff?text=Anh';">
+                </div>
+            </div>
+        </div>
+
+        <div class="hint-text">✨ Chạm nhẹ vào bầu trời để xem hành trình của chúng mình ✨</div>
+    </div>
+
+    <!-- CẢNH 4: ALBUM ẢNH -->
+    <div id="gallery-screen" class="screen">
+        <h1>Hành Trình Của Chúng Mình ❤️</h1>
+        <div class="timeline">
+            <div class="photo-card" style="--tilt: -3;"><img src="ảnh/anh3.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Chúc em luôn hạnh phúc bên anh!</div><div class="date">Ngày ngập nắng</div></div>
+            <div class="photo-card" style="--tilt: 4;"><img src="ảnh/anh2.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Nụ cười này là thứ anh muốn giữ gìn mãi.</div><div class="date">Khoảnh khắc ngọt ngào</div></div>
+            <div class="photo-card" style="--tilt: -2;"><img src="ảnh/anh1.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Lần đầu tiên mình đi chơi cùng nhau.</div><div class="date">Kỷ niệm đáng nhớ</div></div>
+            <div class="photo-card" style="--tilt: 3;"><img src="ảnh/anh4.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Thế giới của anh thu bé lại vừa bằng em.</div><div class="date">Tình yêu của anh</div></div>
+            <div class="photo-card" style="--tilt: -4;"><img src="ảnh/anh5.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Cùng nhau đi qua mọi giông bão nhé.</div><div class="date">Bình yên</div></div>
+            <div class="photo-card" style="--tilt: 2;"><img src="ảnh/anh6.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Anh yêu mọi thứ thuộc về em.</div><div class="date">Mãi mãi</div></div>
+            <div class="photo-card" style="--tilt: -1;"><img src="ảnh/anh7.jpg.JPEG" onerror="this.onerror=null;"><div class="caption">Chúc mừng sinh nhật công chúa của anh!</div><div class="date">Hôm nay</div></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
